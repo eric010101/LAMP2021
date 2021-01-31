@@ -273,6 +273,9 @@ cp /root/LAMP2021/test.php /var/www/html/ipfs-php/test.php
 #################################################
 # upgrade to php8.0
 #################################################
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:ondrej/php -y
+sudo apt update -y
 sudo apt install php8.0 libapache2-mod-php8.0 -y
 sudo a2dismod php7.4
 sudo a2enmod php8.0
