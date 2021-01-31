@@ -346,7 +346,7 @@ cd /var/www/html/ipfs-php
 sudo chmod -R 0777 /var/www/html/ipfs-php/.
 composer require rannmann/php-ipfs-api dev-master -d /var/www/html/ipfs-php
 #sudo composer install
-#cd
+cd
 #################################################
 # create test.php to /var/www/html/ipfs-php/test.php
 #################################################
