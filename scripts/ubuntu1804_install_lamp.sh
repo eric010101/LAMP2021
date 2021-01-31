@@ -334,6 +334,7 @@ cp /root/LAMP2021/info.php /var/www/html/info.php
 #################################################
 cd
 sudo apt update
+sudo apt install expect -y
 sudo apt-get install -y unzip
 curl -sS https://getcomposer.org/installer -o composer-setup.php
 sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
@@ -344,7 +345,8 @@ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 sudo mkdir /var/www/html/ipfs-php
 cd /var/www/html/ipfs-php
 sudo chmod -R 0777 /var/www/html/ipfs-php/.
-composer require rannmann/php-ipfs-api dev-master -d /var/www/html/ipfs-php
+sudo expect /root/LAMP2021/composer-ipfs-php.pl >> ipfs-php-exp.log
+#composer require rannmann/php-ipfs-api dev-master -d /var/www/html/ipfs-php
 #sudo composer install
 cd
 #################################################
