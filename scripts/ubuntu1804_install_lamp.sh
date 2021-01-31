@@ -115,8 +115,10 @@ sed -i "s/\$upload_max_filesize/$upload_max_filesize/g" /etc/php/7.2/apache2/php
 sed -i "s@\$session_save_path@$session_save_path@g" /etc/php/7.2/apache2/php.ini
 
 # Secure /server-status behind htaccess
-srvstatus_htuser=serverinfo
-srvstatus_htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+#srvstatus_htuser=serverinfo
+#srvstatus_htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+srvstatus_htuser=esbc
+srvstatus_htpass=smart123
 echo "$srvstatus_htuser $srvstatus_htpass" > /root/.serverstatus
 htpasswd -b -c /etc/apache2/status-htpasswd $srvstatus_htuser $srvstatus_htpass
 
@@ -152,7 +154,8 @@ log_bin=/var/lib/mysql/bin-log
 log_relay=/var/lib/mysql/relay-log
 log_slow=/var/lib/mysql/slow-log
 includedir=/etc/mysql/conf.d
-mysqlrootpassword=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+#mysqlrootpassword=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+mysqlrootpassword=smart123
 
 # Install MySQL packages
 export DEBIAN_FRONTEND=noninteractive
@@ -235,8 +238,10 @@ echo "30 3 * * * root /usr/sbin/holland -q bk" > /etc/cron.d/holland
 #################################################
 
 # PHPMyAdmin variables
-htuser=serverinfo
-htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+#htuser=serverinfo
+#htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+htuser=esbc
+htpass=smart123
 
 # Install PHPMyAdmin package
 export DEBIAN_FRONTEND=noninteractive
@@ -255,6 +260,76 @@ htpasswd -b -c /etc/phpmyadmin/phpmyadmin-htpasswd $htuser $htpass
 ln -s /etc/phpmyadmin/phpMyAdmin.conf /etc/apache2/conf-enabled/phpMyAdmin.conf
 systemctl restart apache2
 
+#################################################
+# upgrade to php8.0
+#################################################
+
+sudo apt install software-properties-common -y
+sudo add-apt-repository ppa:ondrej/php -y
+sudo apt update -y
+sudo apt install php8.0 libapache2-mod-php8.0 -y
+sudo a2dismod php7.2
+sudo a2enmod php8.0
+sudo systemctl restart apache2
+sudo apt install -y libapache2-mod-php8.0 libapache2-mod-php8.0 php8.0-cli php8.0-mysql php8.0-gd php8.0-dev php8.0-curl php8.0-opcache
+sudo apt install -y php8.0-common php8.0-xml php8.0-xmlrpc php8.0-imagick php8.0-dev php8.0-imap php8.0-mbstring php8.0-soap php8.0-zip php8.0-intl
+sudo systemctl restart apache2
+sed -i "s/\$memory_limit/$memory_limit/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$short_open_tag/$short_open_tag/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$expose_php/$expose_php/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$max_execution_time/$max_execution_time/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$error_reporting/$error_reporting/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$post_max_size/$post_max_size/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$upload_max_filesize/$upload_max_filesize/g" /etc/php/8.0/apache2/php.ini
+sed -i "s@\$session_save_path@$session_save_path@g" /etc/php/8.0/apache2/php.ini
+sudo systemctl restart apache2
+
+#################################################
+# install ipfs
+#################################################
+wget https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz -y
+tar -xvzf go-ipfs_v0.7.0_linux-amd64.tar.gz -y
+cd go-ipfs
+sudo bash install.sh
+ipfs --version
+ipfs init
+
+#################################################
+# create ipfs.service to /etc/systemd/system/ipfs.service
+#################################################
+cp ipfs.service /etc/systemd/system/ipfs.service
+sudo systemctl start ipfs
+sudo systemctl enable ipfs
+
+#################################################
+# info.php to /var/www/html/info.php
+#################################################
+cp info.php /var/www/html/info.php
+
+#################################################
+# install composer
+#################################################
+sudo apt update
+sudo apt-get install -y unzip
+curl -sS https://getcomposer.org/installer -o composer-setup.php -y
+HASH=`curl -sS https://composer.github.io/installer.sig`
+echo $HASH
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+composer -y
+
+#################################################
+# install ipfs-php-api
+#################################################
+mkdir /var/www/html/ipfs-php
+cd /var/www/html/ipfs-php
+composer require rannmann/php-ipfs-api 
+composer install
+
+#################################################
+# create test.php to /var/www/html/ipfs-php/test.php
+#################################################
+cp test.php /var/www/html/ipfs-php/test.php
 
 #################################################
 # Setup Report
