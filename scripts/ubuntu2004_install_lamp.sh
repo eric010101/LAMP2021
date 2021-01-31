@@ -271,6 +271,28 @@ cd
 cp /root/LAMP2021/test.php /var/www/html/ipfs-php/test.php
 
 #################################################
+# upgrade to php8.0
+#################################################
+sudo apt install php8.0 libapache2-mod-php8.0 -y
+sudo a2dismod php7.4
+sudo a2enmod php8.0
+sudo systemctl restart apache2
+sudo apt install -y libapache2-mod-php8.0 libapache2-mod-php8.0 php8.0-cli php8.0-mysql php8.0-gd php8.0-dev php8.0-curl php8.0-opcache
+sudo apt install -y php8.0-common php8.0-xml php8.0-xmlrpc php8.0-imagick php8.0-dev php8.0-imap php8.0-mbstring php8.0-soap php8.0-zip php8.0-intl
+sudo systemctl restart apache2
+sed -i "s/\$memory_limit/$memory_limit/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$short_open_tag/$short_open_tag/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$expose_php/$expose_php/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$max_execution_time/$max_execution_time/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$error_reporting/$error_reporting/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$post_max_size/$post_max_size/g" /etc/php/8.0/apache2/php.ini
+sed -i "s/\$upload_max_filesize/$upload_max_filesize/g" /etc/php/8.0/apache2/php.ini
+sed -i "s@\$session_save_path@$session_save_path@g" /etc/php/8.0/apache2/php.ini
+sed -i "s/display_errors = Off/display_errors = On/g" /etc/php/8.0/apache2/php.ini
+
+sudo systemctl restart apache2
+
+#################################################
 # Setup Report
 #################################################
 
