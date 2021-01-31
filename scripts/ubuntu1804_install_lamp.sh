@@ -330,6 +330,29 @@ cd
 cp /root/LAMP2021/info.php /var/www/html/info.php
 
 #################################################
+# install composer
+#################################################
+cd
+sudo apt update
+sudo apt-get install -y unzip
+curl -sS https://getcomposer.org/installer -o composer-setup.php
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+#################################################
+# install ipfs-php-api
+#################################################
+sudo mkdir /var/www/html/ipfs-php
+#cd /var/www/html/ipfs-php
+composer require rannmann/php-ipfs-api dev-master -d /var/www/html/ipfs-php
+#sudo composer install
+#cd
+#################################################
+# create test.php to /var/www/html/ipfs-php/test.php
+#################################################
+cp /root/LAMP2021/test.php /var/www/html/ipfs-php/test.php
+
+
+#################################################
 # Setup Report
 #################################################
 
