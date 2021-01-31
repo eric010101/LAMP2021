@@ -356,11 +356,11 @@ ${txtbld}---------------------------------------------------------------
 ---------------------------------------------------------------${nc}
 
 ${lightblue}Apache Server Status URL:${nc}   http://$real_ip/server-status
-${lightblue}Apache Server Status User:${nc}  serverinfo
+${lightblue}Apache Server Status User:${nc}  esbc
 ${lightblue}Apache Server Status Pass:${nc}  $srvstatus_htpass
 
 ${lightblue}PHPMyAdmin URL:${nc}  http://$real_ip/phpmyadmin
-${lightblue}PHPMyAdmin User:${nc} serverinfo / root
+${lightblue}PHPMyAdmin User:${nc} esbc / root
 ${lightblue}PHPMyAdmin Pass:${nc} $htpass / $mysqlrootpassword
 
 ${lightblue}MySQL Root User:${nc}  root 
