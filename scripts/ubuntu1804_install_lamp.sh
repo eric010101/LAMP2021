@@ -287,16 +287,18 @@ sudo systemctl restart apache2
 #################################################
 # install ipfs
 #################################################
-wget https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz -y
-tar -xvzf go-ipfs_v0.7.0_linux-amd64.tar.gz -y
+wget https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz
+tar -xvzf go-ipfs_v0.7.0_linux-amd64.tar.gz
 cd go-ipfs
 sudo bash install.sh
 ipfs --version
 ipfs init
+cd /root/LAMP2021
 
 #################################################
 # create ipfs.service to /etc/systemd/system/ipfs.service
 #################################################
+
 cp ipfs.service /etc/systemd/system/ipfs.service
 sudo systemctl start ipfs
 sudo systemctl enable ipfs
