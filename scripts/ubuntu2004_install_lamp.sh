@@ -115,8 +115,10 @@ sed -i "s/\$upload_max_filesize/$upload_max_filesize/g" /etc/php/7.4/apache2/php
 sed -i "s@\$session_save_path@$session_save_path@g" /etc/php/7.4/apache2/php.ini
 
 # Secure /server-status behind htaccess
-srvstatus_htuser=serverinfo
-srvstatus_htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+#srvstatus_htuser=serverinfo
+#srvstatus_htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+srvstatus_htuser=esbc
+srvstatus_htpass=smart123
 echo "$srvstatus_htuser $srvstatus_htpass" > /root/.serverstatus
 htpasswd -b -c /etc/apache2/status-htpasswd $srvstatus_htuser $srvstatus_htpass
 
@@ -135,7 +137,8 @@ ufw allow 443
 
 # MySQL variables
 # Using defaults for the time being
-mysqlrootpassword=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+#mysqlrootpassword=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+mysqlrootpassword=smart123
 
 # Install MySQL packages
 export DEBIAN_FRONTEND=noninteractive
@@ -196,9 +199,10 @@ echo "30 3 * * * root /usr/sbin/holland -q bk" > /etc/cron.d/holland
 #################################################
 
 # PHPMyAdmin variables
-htuser=serverinfo
-htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
-
+#htuser=serverinfo
+#htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
+htuser=esbc
+htpass=smart123
 # Install PHPMyAdmin package
 export DEBIAN_FRONTEND=noninteractive
 apt-get install -y phpmyadmin
@@ -216,6 +220,55 @@ htpasswd -b -c /etc/phpmyadmin/phpmyadmin-htpasswd $htuser $htpass
 ln -s /etc/phpmyadmin/phpMyAdmin.conf /etc/apache2/conf-enabled/phpMyAdmin.conf
 systemctl restart apache2
 
+#################################################
+# install ipfs
+#################################################
+cd
+wget https://dist.ipfs.io/go-ipfs/v0.7.0/go-ipfs_v0.7.0_linux-amd64.tar.gz
+tar -xvzf go-ipfs_v0.7.0_linux-amd64.tar.gz
+cd go-ipfs
+sudo bash install.sh
+ipfs --version
+ipfs init
+
+#################################################
+# create ipfs.service to /etc/systemd/system/ipfs.service
+#################################################
+cd
+cp /root/LAMP2021/ipfs.service /etc/systemd/system/ipfs.service
+sudo systemctl start ipfs
+sudo systemctl enable ipfs
+
+#################################################
+# info.php to /var/www/html/info.php
+#################################################
+cd
+cp /root/LAMP2021/info.php /var/www/html/info.php
+
+#################################################
+# install composer
+#################################################
+cd
+sudo apt update
+sudo apt install expect -y
+sudo apt-get install -y unzip
+curl -sS https://getcomposer.org/installer -o composer-setup.php
+sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+#################################################
+# install ipfs-php-api
+#################################################
+sudo mkdir /var/www/html/ipfs-php
+cd /var/www/html/ipfs-php
+sudo chmod -R 0777 /var/www/html/ipfs-php/.
+sudo expect /root/LAMP2021/composer-ipfs-php.pl >> ipfs-php-exp.log
+#composer require rannmann/php-ipfs-api dev-master -d /var/www/html/ipfs-php
+#sudo composer install
+cd
+#################################################
+# create test.php to /var/www/html/ipfs-php/test.php
+#################################################
+cp /root/LAMP2021/test.php /var/www/html/ipfs-php/test.php
 
 #################################################
 # Setup Report
