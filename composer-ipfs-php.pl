@@ -11,6 +11,6 @@ if {$force_conservative} {
 set timeout -1
 spawn composer require rannmann/php-ipfs-api dev-master -d /var/www/html/ipfs-php
 match_max 100000
-expect "Continue as root/super user [yes]?"
-send -- "yes\r"
+expect "Continue as root/super user"
+send -- "\r"
 expect eof
