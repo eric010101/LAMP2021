@@ -296,6 +296,13 @@ sed -i "s/display_errors = Off/display_errors = On/g" /etc/php/8.0/apache2/php.i
 sudo systemctl restart apache2
 
 #################################################
+# reset back to php 7.4 since PHP 8 has error with phpmyadmin 2021-02-01  eric
+#################################################
+sudo a2dismod php8.0
+sudo a2enmod php7.4
+sudo systemctl restart apache2
+
+#################################################
 # Setup Report
 #################################################
 
