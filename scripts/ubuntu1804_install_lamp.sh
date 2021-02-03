@@ -404,3 +404,4 @@ ${txtbld}---------------------------------------------------------------${nc}
 EOF
 
 cat /root/setup_report
+echo "ESBC LAMP Done!" > LAMP.log
