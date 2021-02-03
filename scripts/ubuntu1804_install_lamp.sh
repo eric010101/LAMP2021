@@ -118,7 +118,7 @@ sed -i "s@\$session_save_path@$session_save_path@g" /etc/php/7.2/apache2/php.ini
 #srvstatus_htuser=serverinfo
 #srvstatus_htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
 srvstatus_htuser=esbc
-srvstatus_htpass=smart123
+srvstatus_htpass=sweetekhappy
 echo "$srvstatus_htuser $srvstatus_htpass" > /root/.serverstatus
 htpasswd -b -c /etc/apache2/status-htpasswd $srvstatus_htuser $srvstatus_htpass
 
@@ -155,7 +155,7 @@ log_relay=/var/lib/mysql/relay-log
 log_slow=/var/lib/mysql/slow-log
 includedir=/etc/mysql/conf.d
 #mysqlrootpassword=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
-mysqlrootpassword=smart123
+mysqlrootpassword=sweetekhappy
 
 # Install MySQL packages
 export DEBIAN_FRONTEND=noninteractive
@@ -241,7 +241,7 @@ echo "30 3 * * * root /usr/sbin/holland -q bk" > /etc/cron.d/holland
 #htuser=serverinfo
 #htpass=`< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16`
 htuser=esbc
-htpass=smart123
+htpass=sweetekhappy
 
 # Install PHPMyAdmin package
 export DEBIAN_FRONTEND=noninteractive
