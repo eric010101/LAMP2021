@@ -36,9 +36,9 @@ def inplace_change(filename, old_string, new_string):
         s = s.replace(old_string, new_string)
         f.write(s)
       
-#my_ip = json.load(urllib.request.urlopen('http://jsonip.com'))['ip']
-#print ('jsonip.com', my_ip)
+my_ip = json.load(urllib.request.urlopen('http://jsonip.com'))['ip']
+print ('jsonip.com', my_ip)
 a='127.0.0.1'
-b=json.load(urllib.request.urlopen('http://jsonip.com'))['ip']
+b=my_ip
 filex='/root/jetlinks-community/docker/run-all/docker-compose.yml'
 inplace_change(filex, a, b)
