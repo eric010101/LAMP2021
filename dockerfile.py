@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+ㄐ#!/usr/bin/python3
 
 import sys
 import socket
@@ -37,7 +37,7 @@ def inplace_change(filename, old_string, new_string):
         f.write(s)
       
 my_ip = json.load(urllib.request.urlopen('http://jsonip.com'))['ip']
-print ('jsonip.com', my_ip)
+print ('host ip=', my_ip)
 a='127.0.0.1'
 b=my_ip
 filex='/root/jetlinks-community/docker/run-all/docker-compose.yml'
