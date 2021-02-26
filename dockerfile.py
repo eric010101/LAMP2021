@@ -7,7 +7,8 @@ import socket
 #inputfile=blogarr[1]
 #print('blog name =',blogn)
 
-
+import urllib.request
+import json
 def get_host_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -18,7 +19,8 @@ def get_host_ip():
 
     return ip
 
-str2=get_host_ip()
+#str2=get_host_ip()
+
 
 def inplace_change(filename, old_string, new_string):
     # Safely read the input filename using 'with'
@@ -33,8 +35,10 @@ def inplace_change(filename, old_string, new_string):
         print('Changing ',old_string, ' to ',new_string,' in ',filename)
         s = s.replace(old_string, new_string)
         f.write(s)
-        
+      
+#my_ip = json.load(urllib.request.urlopen('http://jsonip.com'))['ip']
+#print ('jsonip.com', my_ip)
 a='127.0.0.1'
-b=str2
+b=json.load(urllib.request.urlopen('http://jsonip.com'))['ip']
 filex='/root/jetlinks-community/docker/run-all/docker-compose.yml'
 inplace_change(filex, a, b)
