@@ -42,3 +42,8 @@ a='127.0.0.1'
 b=my_ip
 filex='/root/jetlinks-community/docker/run-all/docker-compose.yml'
 inplace_change(filex, a, b)
+
+a=';extension=pdo_pgsql'
+b='extension=pdo_pgsql'
+filex='/etc/php/7.4/apache2/php.ini'
+inplace_change(filex, a, b)
