@@ -27,8 +27,8 @@ sudo apt-get install git -y
 # ================================
 # 開始下載LAMP 並安裝
 # ================================
-#sudo git clone https://github.com/eric010101/LAMP2021 /root/LAMP2021/
-sudo git clone https://gitee.com/eric010101/LAMP2021.git /root/LAMP2021/
+sudo git clone https://github.com/eric010101/LAMP2021 /root/LAMP2021/
+#sudo git clone https://gitee.com/eric010101/LAMP2021.git /root/LAMP2021/
 sudo cp /root/LAMP2021/lamp2021.sh /root/lamp2021.sh
 sudo cp /root/LAMP2021/dockerfile.py /root/dockerfile.py
 sudo chmod +x lamp2021.sh
